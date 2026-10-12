@@ -1,3 +1,8 @@
 @import "tailwindcss";
 @import "@nicolassancho/storybook-core/styles/theme.css";
 @source "../../node_modules/@nicolassancho/storybook-core/dist";
+
+@theme inline {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+}
