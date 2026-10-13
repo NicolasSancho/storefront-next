@@ -8,8 +8,9 @@ design system I publish and document in
 The goal is to show the design system working in a real app: Server Components by default, client
 code only where interaction needs it, and no design-system code copied into the app.
 
-> Work in progress. The app currently has a single page that renders library components from a
-> Server Component. Product pages, the header and the cart are next.
+> Work in progress. The app has the layout shell (skip link, header with search and cart count,
+> footer) and a temporary home page that renders a typed product catalog. The product listing, the
+> product page and the cart are next.
 
 ## Stack
 
