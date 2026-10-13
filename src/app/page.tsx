@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ProductGrid, Text } from "@nicolassancho/storybook-core";
+import { Container, ProductGrid, Text } from "@nicolassancho/storybook-core";
 import { getProducts } from "@/lib/catalog";
 import { formatPrice } from "@/lib/format";
 
@@ -10,7 +10,7 @@ export default async function Home() {
   const products = await getProducts();
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12">
+    <Container className="flex flex-col gap-8 py-12">
       <Text as="h1" font="display" size="heading" weight="bold" color="darker">
         New this season
       </Text>
@@ -30,6 +30,6 @@ export default async function Home() {
           imageProps: { width: 600, height: 800, sizes: "(min-width: 1280px) 25vw, 50vw" },
         }))}
       />
-    </div>
+    </Container>
   );
 }
