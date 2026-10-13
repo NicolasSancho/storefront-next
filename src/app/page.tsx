@@ -10,7 +10,7 @@ export default async function Home() {
   const products = await getProducts();
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12">
       <Text as="h1" font="display" size="heading" weight="bold" color="darker">
         New this season
       </Text>
@@ -30,6 +30,6 @@ export default async function Home() {
           imageProps: { width: 600, height: 800, sizes: "(min-width: 1280px) 25vw, 50vw" },
         }))}
       />
-    </main>
+    </div>
   );
 }
