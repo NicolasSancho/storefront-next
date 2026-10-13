@@ -1,38 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Breadcrumbs, Button, Grid, ProductCard, Text } from "@nicolassancho/storybook-core";
+import { ProductGrid, Text } from "@nicolassancho/storybook-core";
+import { getProducts } from "@/lib/catalog";
+import { formatPrice } from "@/lib/format";
 
-// Smoke page: every library component here renders from a Server Component (no "use client").
-export default function Home() {
+// Temporary home: a plain grid that exercises the catalog and the product art. Phase 2 replaces
+// it with the real home page.
+export default async function Home() {
+  const products = await getProducts();
+
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12">
-      <Breadcrumbs
+      <Text as="h1" font="display" size="heading" weight="bold" color="darker">
+        New this season
+      </Text>
+      <ProductGrid
+        columns={4}
+        gap="large"
         LinkComponent={Link}
-        items={[{ label: "Home", href: "/" }, { label: "Smoke test" }]}
+        ImageComponent={Image}
+        products={products.map((product) => ({
+          id: product.slug,
+          title: product.title,
+          brand: product.brand,
+          price: formatPrice(product.priceCents),
+          tag: product.tag,
+          href: `/products/${product.slug}`,
+          imageUrl: `/products/${product.slug}.svg`,
+          imageProps: { width: 600, height: 800, sizes: "(min-width: 1280px) 25vw, 50vw" },
+        }))}
       />
-      <Text as="h1" font="display" size="display" weight="bold" color="darker">
-        Quiet objects for rooms you live in.
-      </Text>
-      <Text size="large" color="base">
-        Rendered from a Server Component with the design system from npm.
-      </Text>
-      <div className="flex gap-3">
-        <Button variant="primary">Shop the collection</Button>
-        <Button variant="secondary">Our materials</Button>
-      </div>
-      <Grid columns={4} gap="large">
-        <ProductCard
-          title="Stoneware mug"
-          brand="Plainfield"
-          price="€18"
-          tag="New"
-          imageUrl="/next.svg"
-          href="/"
-          LinkComponent={Link}
-          ImageComponent={Image}
-          imageProps={{ width: 200, height: 200 }}
-        />
-      </Grid>
     </main>
   );
 }
