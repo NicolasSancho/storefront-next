@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+<rect width="600" height="800" fill="#e3ecee"/>
+<ellipse cx="300" cy="556" rx="150" ry="16" fill="#000" opacity=".08"/>
+<defs><clipPath id="c"><path d="M265 200 h70 v110 c0 30 70 50 70 140 a105 105 0 0 1 -210 0 c0 -90 70 -110 70 -140 Z"/></clipPath></defs>
+<path d="M265 200 h70 v110 c0 30 70 50 70 140 a105 105 0 0 1 -210 0 c0 -90 70 -110 70 -140 Z" fill="#cfe3e8"/>
+<rect x="190" y="410" width="220" height="150" fill="#8fb8c4" opacity=".75" clip-path="url(#c)"/>
+<rect x="262" y="196" width="76" height="10" rx="5" fill="#a9c6cd"/>
+</svg>
