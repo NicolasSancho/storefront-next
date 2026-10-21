@@ -6,8 +6,8 @@ export interface ShopLink {
 }
 
 /**
- * "All products" plus one link per category, shared by the header navigation and the footer so
- * the two never drift apart. The categories come from the cached catalog, so it stays static.
+ * "All products" plus one link per category, used by the footer. The categories come from the
+ * cached catalog, so it stays static.
  */
 export async function getShopLinks(): Promise<ShopLink[]> {
   const categories = await getCategories();
