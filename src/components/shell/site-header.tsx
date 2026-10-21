@@ -1,15 +1,16 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { Header } from "@nicolassancho/storybook-core";
-import { getShopLinks } from "@/lib/shop-links";
 import { siteName } from "@/lib/site";
 import { CartLink, CartLinkLoader } from "./cart-link";
 import { linkStyles } from "./link-styles";
 import { SearchForm } from "./search-form";
 
-export async function SiteHeader() {
-  const shopLinks = await getShopLinks();
+// Global navigation only. The category links live in the filter chips on /products, in the footer
+// and on the home page, so the header stays on one row on a phone.
+const navItems = [{ label: "All products", href: "/products" }];
 
+export function SiteHeader() {
   return (
     <Header
       brand={
@@ -17,7 +18,7 @@ export async function SiteHeader() {
           {siteName}
         </Link>
       }
-      navItems={shopLinks}
+      navItems={navItems}
       LinkComponent={Link}
       actions={
         <>
