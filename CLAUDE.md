@@ -53,6 +53,11 @@ real product; it is not a feature-rich shop.
 
 - Server Components by default. `"use client"` only for state, effects, browser APIs or event
   handlers, and only at the leaf.
+- `"use cache"` goes on functions whose arguments come from a bounded set (none, or a slug). The
+  arguments are part of the cache key, so never pass user input such as `searchParams` into a
+  cached function: cache the collection and filter outside it (`filterProducts`).
+- `searchParams` is request-time data. A page reads it only inside a `<Suspense>` boundary (the
+  page passes the promise down and a child awaits it), so the rest of the page stays static.
 - Define `LinkComponent`, `ImageComponent` and other injected components outside render functions.
 - Type routes and props with the generated helpers (`LayoutProps`, `PageProps`).
 - Accessibility is a requirement: semantic HTML, visible focus, accessible names, and a text
