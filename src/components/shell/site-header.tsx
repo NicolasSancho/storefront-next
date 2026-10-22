@@ -6,9 +6,9 @@ import { CartLink, CartLinkLoader } from "./cart-link";
 import { linkStyles } from "./link-styles";
 import { SearchForm } from "./search-form";
 
-// Global navigation only. The category links live in the filter chips on /products, in the footer
-// and on the home page, so the header stays on one row on a phone.
-const navItems = [{ label: "All products", href: "/products" }];
+// Global navigation only: one way into the catalog from any page. The category links live in the
+// filter chips on /products and in the footer, so they are not repeated here.
+const navItems = [{ label: "Shop", href: "/products" }];
 
 export function SiteHeader() {
   return (
