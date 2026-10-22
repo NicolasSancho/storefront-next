@@ -9,7 +9,7 @@ export function SearchForm() {
         name="q"
         aria-label="Search products"
         variantSize="small"
-        className="w-36 min-w-0 sm:w-56"
+        className="w-24 min-w-0 sm:w-56"
       />
       <Button type="submit" size="small">
         Search
