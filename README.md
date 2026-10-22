@@ -2,6 +2,8 @@
 
 **Live: https://storefront-next-orpin.vercel.app/**
 
+[![CI](https://github.com/NicolasSancho/storefront-next/actions/workflows/ci.yml/badge.svg)](https://github.com/NicolasSancho/storefront-next/actions/workflows/ci.yml)
+
 A storefront built with the Next.js App Router, TypeScript and Tailwind CSS v4. Its UI comes from
 [`@nicolassancho/storybook-core`](https://www.npmjs.com/package/@nicolassancho/storybook-core), a
 design system I publish and document in
