@@ -65,7 +65,9 @@ real product; it is not a feature-rich shop.
 
 ## Checks
 
-Before considering a task done, run `npx tsc --noEmit`, `npm run lint` and `npm run build`. For
+Before considering a task done, run `npm run typecheck`, `npm run lint` and `npm run build`. CI
+(`.github/workflows/ci.yml`) runs the same three scripts on every pull request, and `CI / checks`
+is a required status check on `main`. Keep the workflow and these scripts in step. For
 UI changes, also look at the page in a browser in light and dark, and at phone width. Server and
 Client behavior cannot be proved by a type check, only by a real build and run.
 
