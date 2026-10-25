@@ -1,26 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Container, ProductGrid, Text } from "@nicolassancho/storybook-core";
-import { toProductCardProps } from "@/components/products/product-card";
-import { getProducts } from "@/lib/catalog";
+import { Container } from "@nicolassancho/storybook-core";
+import { CategoryLinks } from "@/components/home/category-links";
+import { Hero } from "@/components/home/hero";
+import { NewArrivals } from "@/components/home/new-arrivals";
 
-// Temporary home: a plain grid that exercises the catalog and the product art. Phase 2 replaces
-// it with the real home page.
-export default async function Home() {
-  const products = await getProducts();
-
+export default function Home() {
   return (
-    <Container className="flex flex-col gap-8 py-12">
-      <Text as="h1" font="display" size="heading" weight="bold" color="darker">
-        New this season
-      </Text>
-      <ProductGrid
-        columns={4}
-        gap="large"
-        LinkComponent={Link}
-        ImageComponent={Image}
-        products={products.map(toProductCardProps)}
-      />
+    <Container>
+      <Hero />
+      <NewArrivals />
+      <CategoryLinks />
     </Container>
   );
 }

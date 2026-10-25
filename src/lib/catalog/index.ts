@@ -1,7 +1,9 @@
 import { cacheLife } from "next/cache";
 import { categories, products } from "./data";
+import { featuredCount, pickFeatured } from "./featured";
 import type { Category, Product } from "./types";
 
+export { featuredCount, pickFeatured } from "./featured";
 export { filterProducts, parseFilters } from "./filters";
 export type { Category, CategorySlug, Product, ProductColor, ProductFilters } from "./types";
 
@@ -24,6 +26,14 @@ export async function getProduct(slug: string): Promise<Product | undefined> {
   cacheLife("days");
 
   return products.find((product) => product.slug === slug);
+}
+
+// The hero shows the products that come right after the featured ones, so no image appears twice.
+export async function getHeroProducts(): Promise<Product[]> {
+  "use cache";
+  cacheLife("days");
+
+  return pickFeatured(products, featuredCount + 3).slice(featuredCount);
 }
 
 export async function getCategories(): Promise<Category[]> {
