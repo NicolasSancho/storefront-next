@@ -28,6 +28,9 @@ real product; it is not a feature-rich shop.
 - Fonts: `next/font` loads Hanken Grotesk (`--font-body`) and Bricolage Grotesque
   (`--font-heading`) in `src/app/layout.tsx`. `@theme inline` in `globals.css` maps them to the
   library's `--font-sans` and `--font-display`.
+- Prettier formats everything (`.prettierrc`: double quotes, semicolons, 100 columns, ES5 trailing
+  commas, the same as the design system). Run `npm run format` before committing. ESLint has no
+  formatting rules, so the two do not conflict.
 - No test tooling is set up. Do not add any unless asked.
 
 ## Using the design system
@@ -74,11 +77,11 @@ real product; it is not a feature-rich shop.
 
 ## Checks
 
-Before considering a task done, run `npm run typecheck`, `npm run lint` and `npm run build`. CI
-(`.github/workflows/ci.yml`) runs the same three scripts on every pull request, and `CI / checks`
-is a required status check on `main`. Keep the workflow and these scripts in step. For
-UI changes, also look at the page in a browser in light and dark, and at phone width. Server and
-Client behavior cannot be proved by a type check, only by a real build and run.
+Before considering a task done, run `npm run typecheck`, `npm run lint`, `npm run format:check` and
+`npm run build`. CI (`.github/workflows/ci.yml`) runs the same four scripts on every pull request,
+and `CI / checks` is a required status check on `main`. Keep the workflow and these scripts in
+step. For UI changes, also look at the page in a browser in light and dark, and at phone width.
+Server and Client behavior cannot be proved by a type check, only by a real build and run.
 
 ## Git
 
