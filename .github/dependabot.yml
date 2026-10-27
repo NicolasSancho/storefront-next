@@ -5,6 +5,12 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      # Every action is pinned in ci.yml, so separate PRs would each edit the same lines and rebase
+      # one after the other. One PR keeps cache and cache/restore on the same version too.
+      github-actions:
+        patterns:
+          - "*"
 
   - package-ecosystem: npm
     directory: /
@@ -23,3 +29,11 @@ updates:
           - react-dom
           - "@types/react"
           - "@types/react-dom"
+    ignore:
+      # typescript-eslint, which eslint-config-next depends on, does not support TypeScript 7 yet:
+      # `npm run lint` fails to start. Update by hand once it does.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      # The types follow the Node version CI and local development run (24), not the latest Node.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
