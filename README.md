@@ -56,9 +56,9 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000).
 
-| Command         | What it does                      |
-| --------------- | --------------------------------- |
-| `npm run dev`   | Development server                |
-| `npm run build` | Production build                  |
-| `npm start`     | Serve the production build        |
-| `npm run lint`  | ESLint                            |
+| Command         | What it does               |
+| --------------- | -------------------------- |
+| `npm run dev`   | Development server         |
+| `npm run build` | Production build           |
+| `npm start`     | Serve the production build |
+| `npm run lint`  | ESLint                     |

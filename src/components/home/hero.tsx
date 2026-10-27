@@ -7,10 +7,7 @@ export async function Hero() {
   const products = await getHeroProducts();
 
   return (
-    <section
-      aria-labelledby="hero-title"
-      className="grid items-center gap-10 py-12 md:grid-cols-2"
-    >
+    <section aria-labelledby="hero-title" className="grid items-center gap-10 py-12 md:grid-cols-2">
       <div className="flex flex-col items-start gap-5">
         <Text
           as="p"
