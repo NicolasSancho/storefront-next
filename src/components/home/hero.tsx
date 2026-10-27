@@ -1,6 +1,6 @@
-import Image from "next/image";
+import NextImage from "next/image";
 import Link from "next/link";
-import { ButtonLink, Text } from "@nicolassancho/storybook-core";
+import { ButtonLink, Image, Text } from "@nicolassancho/storybook-core";
 import { getHeroProducts } from "@/lib/catalog";
 
 export async function Hero() {
@@ -40,6 +40,7 @@ export async function Hero() {
             key={slug}
             src={`/products/${slug}.svg`}
             alt=""
+            ImageComponent={NextImage}
             width={600}
             height={800}
             sizes="(min-width: 768px) 16vw, 30vw"
