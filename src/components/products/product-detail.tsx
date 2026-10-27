@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { ProductDetails, Text } from "@nicolassancho/storybook-core";
+import NextImage from "next/image";
+import { Image, ProductDetails, Text } from "@nicolassancho/storybook-core";
 import type { Product } from "@/lib/catalog";
 import { stockStatus } from "@/lib/catalog/stock";
 import { formatPrice } from "@/lib/format";
@@ -17,6 +17,7 @@ export function ProductDetail({ product, categoryName }: ProductDetailProps) {
       <Image
         src={`/products/${product.slug}.svg`}
         alt={product.imageAlt}
+        ImageComponent={NextImage}
         width={600}
         height={800}
         sizes="(min-width: 768px) 50vw, 100vw"
