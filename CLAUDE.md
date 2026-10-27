@@ -58,6 +58,15 @@ real product; it is not a feature-rich shop.
   cached function: cache the collection and filter outside it (`filterProducts`).
 - `searchParams` is request-time data. A page reads it only inside a `<Suspense>` boundary (the
   page passes the promise down and a child awaits it), so the rest of the page stays static.
+- Dynamic routes declare their pages with `generateStaticParams` (it must return at least one
+  value with Cache Components) and await `params`. `dynamicParams = false` is not allowed with
+  Cache Components. An unknown slug calls `notFound()`; the first request returns 200 with
+  `noindex` because the shell has already streamed, and that gap is accepted and documented.
+- Business rules that a page needs (`stockStatus`, `pickFeatured`, `filterProducts`) are plain
+  functions in `src/lib/`. Hooks are for stateful Client Components only, so they are not used to
+  split logic from Server Components.
+- Structured data is a `<script type="application/ld+json">` in a server component, with `<` escaped
+  as `\u003c`. Absolute URLs come from `siteUrl` in `src/lib/site.ts`.
 - Define `LinkComponent`, `ImageComponent` and other injected components outside render functions.
 - Type routes and props with the generated helpers (`LayoutProps`, `PageProps`).
 - Accessibility is a requirement: semantic HTML, visible focus, accessible names, and a text

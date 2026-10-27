@@ -4,6 +4,7 @@ import { PromoBar } from "@/components/shell/promo-bar";
 import { SiteFooter } from "@/components/shell/site-footer";
 import { SiteHeader } from "@/components/shell/site-header";
 import { SkipLink } from "@/components/shell/skip-link";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const body = Hanken_Grotesk({
@@ -17,6 +18,7 @@ const heading = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Storefront",
   description: "A Next.js storefront built on the @nicolassancho/storybook-core design system.",
 };
