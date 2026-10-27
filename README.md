@@ -12,9 +12,20 @@ design system I publish and document in
 The goal is to show the design system working in a real app: Server Components by default, client
 code only where interaction needs it, and no design-system code copied into the app.
 
-> Work in progress. The app has the layout shell (skip link, header with search and cart count,
-> footer) and a temporary home page that renders a typed product catalog. The product listing, the
-> product page and the cart are next.
+> Work in progress. The home page, the product listing (with category and search filters) and the
+> product pages are built. Loading and error states and the cart (Server Actions) are next.
+
+## Routes
+
+| Route              | What it shows                                                  | Rendering                                             |
+| ------------------ | -------------------------------------------------------------- | ----------------------------------------------------- |
+| `/`                | Hero, new arrivals, category links                             | Static page content, with the header cart streamed in |
+| `/products`        | The catalog, filtered by `?category=` and `?q=`                | Static heading, the filtered results stream in        |
+| `/products/[slug]` | One product: price, stock, colors, specs, breadcrumbs, JSON-LD | All 12 pages prerendered with `generateStaticParams`  |
+
+An unknown product slug renders `not-found.tsx`. With Cache Components the first request returns
+200 with `noindex` and later ones return 404, because the page shell streams before `notFound()`
+runs. The catalog is fixed and nothing links to unknown slugs, so a Proxy check was not added.
 
 ## Stack
 
