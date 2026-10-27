@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs, Container } from "@nicolassancho/storybook-core";
 import { ProductDetail } from "@/components/products/product-detail";
+import { ProductJsonLd } from "@/components/products/product-json-ld";
 import { getCategories, getProduct, getProducts } from "@/lib/catalog";
 
 export async function generateStaticParams() {
@@ -46,6 +47,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
         ]}
       />
       <ProductDetail product={product} categoryName={category.name} />
+      <ProductJsonLd product={product} />
     </Container>
   );
 }
