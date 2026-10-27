@@ -31,7 +31,7 @@ real product; it is not a feature-rich shop.
 - Prettier formats everything (`.prettierrc`: double quotes, semicolons, 100 columns, ES5 trailing
   commas, the same as the design system). Run `npm run format` before committing. ESLint has no
   formatting rules, so the two do not conflict.
-- No test tooling is set up. Do not add any unless asked.
+- Tests: Vitest for unit tests and Playwright (Chromium) for end-to-end tests, see "Testing" below.
 
 ## Using the design system
 
@@ -77,11 +77,30 @@ real product; it is not a feature-rich shop.
 
 ## Checks
 
-Before considering a task done, run `npm run typecheck`, `npm run lint`, `npm run format:check` and
-`npm run build`. CI (`.github/workflows/ci.yml`) runs the same four scripts on every pull request,
-and `CI / checks` is a required status check on `main`. Keep the workflow and these scripts in
-step. For UI changes, also look at the page in a browser in light and dark, and at phone width.
-Server and Client behavior cannot be proved by a type check, only by a real build and run.
+Before considering a task done, run `npm run typecheck`, `npm run lint`, `npm run format:check`,
+`npm test`, `npm run build` and `npm run test:e2e` (it needs the build). CI
+(`.github/workflows/ci.yml`) runs the same scripts on every pull request in two jobs: `checks`
+(typecheck, lint, format, unit tests, build) and `e2e` (build, Chromium, end-to-end tests). Both
+are required status checks on `main`. Keep the workflow and these scripts in step. For UI
+changes, also look at the page in a browser in light and dark, and at phone width. Server and
+Client behavior cannot be proved by a type check, only by a real build and run.
+
+## Testing
+
+- Unit tests (`*.test.ts` next to the code, Vitest, node environment) cover pure functions in
+  `src/lib`. Async Server Components are not supported by Vitest, so pages and flows are covered by
+  Playwright specs in `e2e/`, which run against the production build.
+- Do not mock Next. A function that needs Next's runtime (`"use cache"`, `cookies()`) is covered
+  end to end. That is why the logic worth testing lives in plain functions.
+- Write the expected value by hand. Never recompute it with the code under test, and no snapshots.
+- Test the boundaries (0, 1, 5 and 6 units; an empty, a repeated and a too long query), not only
+  the happy path.
+- Every test must be able to fail: break the code under test and watch it fail before trusting it.
+- In Playwright, query by role and accessible name, use web-first assertions and never
+  `waitForTimeout`. Each test stands alone and does not depend on another.
+- The accessibility specs check that the page has content and that axe evaluated rules, so a blank
+  page cannot pass. Do not assert the status code of an unknown product (see the README).
+- No coverage threshold: a percentage invites tests that exist only to raise it.
 
 ## Git
 
