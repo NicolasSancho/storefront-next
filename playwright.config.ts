@@ -9,10 +9,12 @@ export default defineConfig({
   testMatch: "**/*.spec.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  // No retries: a flaky test should fail the run and get fixed, not pass on a second try.
+  retries: 0,
+  // One worker in CI: the suite takes about 25 seconds against a single server.
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
-  use: { baseURL, trace: "on-first-retry" },
+  use: { baseURL, trace: "retain-on-failure" },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   // Tests run against the production build (`npm run build` first), the same code that ships.
   webServer: {
