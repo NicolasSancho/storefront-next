@@ -56,11 +56,24 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000).
 
-| Command                | What it does               |
-| ---------------------- | -------------------------- |
-| `npm run dev`          | Development server         |
-| `npm run build`        | Production build           |
-| `npm start`            | Serve the production build |
-| `npm run lint`         | ESLint                     |
-| `npm run format`       | Format with Prettier       |
-| `npm run format:check` | Check the formatting (CI)  |
+| Command                | What it does                                         |
+| ---------------------- | ---------------------------------------------------- |
+| `npm run dev`          | Development server                                   |
+| `npm run build`        | Production build                                     |
+| `npm start`            | Serve the production build                           |
+| `npm run lint`         | ESLint                                               |
+| `npm run format`       | Format with Prettier                                 |
+| `npm run format:check` | Check the formatting (CI)                            |
+| `npm test`             | Unit tests (Vitest)                                  |
+| `npm run test:e2e`     | End-to-end tests (Playwright), after `npm run build` |
+
+## Testing
+
+- **Unit tests** (Vitest) cover the pure logic in `src/lib`: catalog filtering and search, the
+  featured selection, the stock line, price formatting and the cart cookie parser.
+- **End-to-end tests** (Playwright, Chromium) cover the home page, the product listing with its
+  filters and search, the product page (details, breadcrumbs, stock states, structured data, the
+  not-found page), the keyboard skip link, and an axe accessibility check of four pages at phone
+  and desktop width in light and dark. Run `npm run build` first: they test the production build.
+- CI runs both in two parallel jobs, `checks` and `e2e`. A failing end-to-end run uploads the
+  Playwright report (with traces) as an artifact for seven days.
