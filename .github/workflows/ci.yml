@@ -39,6 +39,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Check formatting
+        run: npm run format:check
+
       # Persists .next/cache between runs, as the Next.js CI build caching guide describes.
       # Rebuilds from the last cache for the same lockfile when only the source changed.
       - name: Cache the Next.js build
