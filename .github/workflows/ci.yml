@@ -15,17 +15,21 @@ concurrency:
 env:
   NEXT_TELEMETRY_DISABLED: "1"
 
+# Actions are pinned to a commit, with the release in a comment. Dependabot proposes the updates.
 jobs:
+  # The fast checks, in the order that fails soonest.
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "24"
           cache: npm
@@ -42,10 +46,13 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
+      - name: Unit tests
+        run: npm test
+
       # Persists .next/cache between runs, as the Next.js CI build caching guide describes.
       # Rebuilds from the last cache for the same lockfile when only the source changed.
       - name: Cache the Next.js build
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**', 'public/**', 'next.config.ts') }}
@@ -54,3 +61,56 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  # Slower and needs a browser, so it runs in parallel with `checks` and reports on its own.
+  # It builds again instead of sharing the build: a second build is cheap here, and an artifact
+  # would add upload and download steps that can fail on their own.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Restore only: `checks` saves the same key, and two jobs cannot save one key.
+      - name: Restore the Next.js build cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**', 'public/**', 'next.config.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+
+      - name: Build
+        run: npm run build
+
+      # Browsers are not cached: Playwright's CI guide advises against it, because restoring the
+      # cache takes about as long as downloading them.
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: npm run test:e2e
+
+      # Only on failure, so passing runs do not store anything. The report has the traces.
+      - name: Upload the Playwright report
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
