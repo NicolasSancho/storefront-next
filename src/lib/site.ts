@@ -9,3 +9,9 @@ export const projectLinks = [
   { label: "Design system source", href: "https://github.com/NicolasSancho/Storybook-core" },
   { label: "Storefront source", href: "https://github.com/NicolasSancho/storefront-next" },
 ];
+
+// Absolute URLs (structured data, canonical links) need the origin. Vercel sets the production
+// host at build time; locally it falls back to the dev server.
+export const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
