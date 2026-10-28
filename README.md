@@ -12,9 +12,31 @@ design system I publish and document in
 The goal is to show the design system working in a real app: Server Components by default, client
 code only where interaction needs it, and no design-system code copied into the app.
 
-> Work in progress. The home page, the product listing (with category and search filters), the
-> product pages and the cart are built. Loading and error states, and a catalog that scales past a
-> few products, are next.
+## Scope
+
+This is a showcase for the design system, not a shop. The catalog is 12 fixed sample products in
+`src/lib/catalog/`, and there is no checkout, no accounts and no database. The data functions
+(`getProducts`, `getProduct`) are the only place that knows where products come from, so
+replacing them with an API call would not touch the pages.
+
+It is not built for a large catalog. The cart page and the header count load the whole catalog,
+the listing has no pagination, and search and filters run in memory. A real shop would fetch only
+the products in the cart, paginate and search on the server, and reserve stock at checkout. The
+cart cookie also holds at most about 4 KB of lines.
+
+## Performance
+
+Lighthouse 13.0.0 against the live site, mobile profile with the default throttling, on
+2026-10-28. Each number is the median of 5 runs. JavaScript is the compressed size transferred on
+the first load.
+
+| Page                      | Performance | Accessibility | Best practices | SEO | LCP    | CLS   | TBT   | JavaScript |
+| ------------------------- | ----------- | ------------- | -------------- | --- | ------ | ----- | ----- | ---------- |
+| `/`                       | 99          | 100           | 100            | 100 | 1.84 s | 0     | 75 ms | 146 KB     |
+| `/products`               | 99          | 100           | 100            | 100 | 1.84 s | 0.038 | 79 ms | 160 KB     |
+| `/products/stoneware-mug` | 98          | 100           | 100            | 100 | 2.11 s | 0     | 96 ms | 160 KB     |
+
+Lab results from one machine and network: they will vary on yours.
 
 ## Routes
 
@@ -25,7 +47,8 @@ code only where interaction needs it, and no design-system code copied into the 
 | `/products/[slug]` | One product: price, stock, colors, specs, breadcrumbs, JSON-LD | All 12 pages prerendered with `generateStaticParams`  |
 | `/cart`            | The cart lines, quantity controls and subtotal                 | Static heading, the lines stream in from the cookie   |
 
-An unknown product slug renders `not-found.tsx`. With Cache Components the first request returns
+An unknown URL returns a 404 with the branded `src/app/not-found.tsx`. An unknown product slug renders
+its own `not-found.tsx`. With Cache Components the first request returns
 200 with `noindex` and later ones return 404, because the page shell streams before `notFound()`
 runs. The catalog is fixed and nothing links to unknown slugs, so a Proxy check was not added.
 
