@@ -81,6 +81,12 @@ design system working in a real product; it is not a feature-rich shop.
 - Content behind `<Suspense>` (the cart lines, the filtered results, the header count) is in the
   HTML but stays hidden until JavaScript runs. The add-to-cart form works without JavaScript, but the
   page that shows the result does not. This is a known trade-off of the static shell.
+- `src/app/not-found.tsx` is the branded 404 for unknown URLs, `error.tsx` is the boundary inside the
+  layout (header and footer stay) and `global-error.tsx` replaces the layout if it fails, so it
+  renders its own `<html>` and `<body>`. In 16.4 the error components receive `{ error, retry }`:
+  call `retry()`, not the older `reset()`. There is no `loading.tsx`: every dynamic part already
+  has its own `<Suspense>` fallback, and a route-level one would wrap the whole page in a single
+  boundary and fight the static shell.
 - Define `LinkComponent`, `ImageComponent` and other injected components outside render functions.
 - Type routes and props with the generated helpers (`LayoutProps`, `PageProps`).
 - Accessibility is a requirement: semantic HTML, visible focus, accessible names, and a text
