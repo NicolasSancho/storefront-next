@@ -1,7 +1,7 @@
 import { Button, SearchInput } from "@nicolassancho/storybook-core";
 
 // A native GET form: submitting it loads /products?q=..., which the page reads on the server. It
-// needs no JavaScript and no event handler.
+// needs no event handler, so it is a Server Component.
 export function SearchForm() {
   return (
     <form role="search" action="/products" className="flex items-center gap-2">

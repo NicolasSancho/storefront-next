@@ -10,7 +10,7 @@ interface CategoryChipsProps {
 }
 
 /**
- * One link per category, plus "All". They are plain links, so filtering works without JavaScript.
+ * One link per category, plus "All". They are plain links, so they need no client code.
  * A chip sets only the category: it clears any search, as the search form clears the category.
  */
 export async function CategoryChips({ category, allSelected = false }: CategoryChipsProps) {
