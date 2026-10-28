@@ -1,5 +1,6 @@
 import NextImage from "next/image";
 import { Image, ProductDetails, Text } from "@nicolassancho/storybook-core";
+import { AddToCartForm } from "@/components/products/add-to-cart-form";
 import type { Product } from "@/lib/catalog";
 import { stockStatus } from "@/lib/catalog/stock";
 import { formatPrice } from "@/lib/format";
@@ -10,7 +11,7 @@ interface ProductDetailProps {
 }
 
 export function ProductDetail({ product, categoryName }: ProductDetailProps) {
-  const { label: stockLabel } = stockStatus(product.stock);
+  const { label: stockLabel, inStock } = stockStatus(product.stock);
 
   return (
     <article className="grid items-start gap-10 md:grid-cols-2">
@@ -53,27 +54,11 @@ export function ProductDetail({ product, categoryName }: ProductDetailProps) {
         <Text as="p" color="base" className="max-w-[60ch]">
           {product.description}
         </Text>
-        <section aria-labelledby="colors-title" className="flex flex-col gap-2">
-          <h2 id="colors-title">
-            <Text as="span" weight="semibold" color="darker">
-              Colors
-            </Text>
-          </h2>
-          <ul className="flex flex-wrap gap-x-4 gap-y-2">
-            {product.colors.map(({ name, value }) => (
-              <li key={name} className="flex items-center gap-2">
-                <span
-                  aria-hidden
-                  className="size-4 rounded-full border border-neutral-300"
-                  style={{ backgroundColor: value }}
-                />
-                <Text as="span" size="small" color="base">
-                  {name}
-                </Text>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <AddToCartForm
+          slug={product.slug}
+          colors={product.colors.map(({ name }) => name)}
+          soldOut={!inStock}
+        />
         <section aria-labelledby="details-title" className="flex flex-col gap-2">
           <h2 id="details-title">
             <Text as="span" weight="semibold" color="darker">
