@@ -4,9 +4,8 @@ A storefront built with the Next.js App Router, TypeScript and Tailwind CSS v4. 
 the design system `@nicolassancho/storybook-core`, installed from npm (public repo:
 https://github.com/NicolasSancho/Storybook-core, Storybook: https://nicolassancho.github.io/Storybook-core/).
 
-The project is a portfolio piece that architects will review, so every change should be
-explainable: simple, idiomatic and typed end to end. The app proves the design system works in a
-real product; it is not a feature-rich shop.
+Every change should be explainable: simple, idiomatic and typed end to end. The app shows the
+design system working in a real product; it is not a feature-rich shop.
 
 ## Working rules
 
@@ -64,12 +63,24 @@ real product; it is not a feature-rich shop.
 - Dynamic routes declare their pages with `generateStaticParams` (it must return at least one
   value with Cache Components) and await `params`. `dynamicParams = false` is not allowed with
   Cache Components. An unknown slug calls `notFound()`; the first request returns 200 with
-  `noindex` because the shell has already streamed, and that gap is accepted and documented.
+  `noindex` because the shell has already streamed, and that gap is known and documented.
 - Business rules that a page needs (`stockStatus`, `pickFeatured`, `filterProducts`) are plain
   functions in `src/lib/`. Hooks are for stateful Client Components only, so they are not used to
   split logic from Server Components.
 - Structured data is a `<script type="application/ld+json">` in a server component, with `<` escaped
   as `\u003c`. Absolute URLs come from `siteUrl` in `src/lib/site.ts`.
+- Mutations are Server Actions in `src/lib/*-actions.ts` (`"use server"`). An action is a public
+  POST endpoint: validate every field (the product, the option and the quantity against the
+  catalog), never read a price from the request, and return only what the UI renders. The cart is
+  the `cart` cookie, written with `httpOnly`, `sameSite: "lax"` and `secure` in production.
+- React resets a form after its action. A control the user chose (the color) must come back from the
+  action's state as the new `defaultValue`, or it jumps back to the first option.
+- The only client component is `add-to-cart-form.tsx` (`useActionState` for the pending state and the
+  announced message). It is there for feedback; a plain form would work without it. Add another only
+  for state, effects or handlers.
+- Content behind `<Suspense>` (the cart lines, the filtered results, the header count) is in the
+  HTML but stays hidden until JavaScript runs. The add-to-cart form works without JavaScript, but the
+  page that shows the result does not. This is a known trade-off of the static shell.
 - Define `LinkComponent`, `ImageComponent` and other injected components outside render functions.
 - Type routes and props with the generated helpers (`LayoutProps`, `PageProps`).
 - Accessibility is a requirement: semantic HTML, visible focus, accessible names, and a text

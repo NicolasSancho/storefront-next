@@ -5,6 +5,7 @@ const pages = [
   { name: "home", path: "/" },
   { name: "products", path: "/products" },
   { name: "product", path: "/products/stoneware-mug" },
+  { name: "empty cart", path: "/cart" },
   { name: "not found", path: "/products/does-not-exist" },
 ];
 const viewports = [

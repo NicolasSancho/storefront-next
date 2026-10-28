@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 test.describe("product page", () => {
-  test("shows the product's details", async ({ page }) => {
+  test("shows the product's title, price, stock and image", async ({ page }) => {
     await page.goto("/products/stoneware-mug");
 
     await expect(page).toHaveTitle("Stoneware mug");
@@ -11,6 +11,10 @@ test.describe("product page", () => {
     await expect(
       page.getByRole("img", { name: "A sand-colored stoneware mug with a wide handle." })
     ).toBeVisible();
+  });
+
+  test("lists the specs as terms and definitions", async ({ page }) => {
+    await page.goto("/products/stoneware-mug");
 
     await expect(page.getByRole("term")).toHaveText(["Capacity", "Material", "Care"]);
     await expect(page.getByRole("definition")).toHaveText([
@@ -18,9 +22,14 @@ test.describe("product page", () => {
       "Stoneware",
       "Dishwasher safe",
     ]);
+  });
 
-    const colors = page.getByRole("region", { name: "Colors" });
-    await expect(colors.getByRole("listitem")).toHaveText(["Sand", "Slate"]);
+  test("offers the colors as radio buttons, with the first one selected", async ({ page }) => {
+    await page.goto("/products/stoneware-mug");
+
+    await expect(page.getByRole("radio")).toHaveCount(2);
+    await expect(page.getByRole("radio", { name: "Sand" })).toBeChecked();
+    await expect(page.getByRole("radio", { name: "Slate" })).not.toBeChecked();
   });
 
   test("has breadcrumbs back to the category and the home page", async ({ page }) => {
@@ -48,7 +57,10 @@ test.describe("product page", () => {
       test(`${slug}: ${shown}`, async ({ page }) => {
         await page.goto(`/products/${slug}`);
 
-        await expect(page.getByText(shown, { exact: true })).toBeVisible();
+        // "Sold out" is also the text of the disabled button, so look at the stock line only.
+        await expect(
+          page.getByRole("paragraph").filter({ hasText: new RegExp(`^${shown}$`) })
+        ).toBeVisible();
       });
     }
   });

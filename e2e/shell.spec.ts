@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const pages = ["/", "/products", "/products/stoneware-mug", "/products/does-not-exist"];
+const pages = ["/", "/products", "/products/stoneware-mug", "/cart", "/products/does-not-exist"];
 
 test.describe("site shell", () => {
   test("the skip link is the first tab stop and moves focus to the main content", async ({
