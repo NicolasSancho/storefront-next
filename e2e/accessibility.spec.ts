@@ -6,7 +6,8 @@ const pages = [
   { name: "products", path: "/products" },
   { name: "product", path: "/products/stoneware-mug" },
   { name: "empty cart", path: "/cart" },
-  { name: "not found", path: "/products/does-not-exist" },
+  { name: "unknown product", path: "/products/does-not-exist" },
+  { name: "not found", path: "/no-such-page" },
 ];
 const viewports = [
   { name: "phone", width: 375, height: 800 },
