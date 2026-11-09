@@ -1,17 +1,18 @@
-import { Button, SearchInput } from "@nicolassancho/storybook-core";
+import { Button, Input } from "@nicolassancho/storybook-core";
 
 // A native GET form: submitting it loads /products?q=..., which the page reads on the server. It
 // needs no event handler, so it is a Server Component.
 export function SearchForm() {
   return (
     <form role="search" action="/products" className="flex items-center gap-2">
-      <SearchInput
+      <Input
+        type="search"
         name="q"
-        aria-label="Search products"
-        variantSize="small"
-        className="w-24 min-w-0 sm:w-56"
+        label="Search products"
+        hideLabel
+        className="w-20 min-w-0 sm:w-56"
       />
-      <Button type="submit" size="small">
+      <Button type="submit" size="medium">
         Search
       </Button>
     </form>
